@@ -27,13 +27,11 @@
 }
 
 .footer-logo__img {
-	width: 220px;
+	width: 200px;
 	max-width: 100%;
 	object-fit: contain;
 	display: block;
 	filter: brightness(0) invert(1);
-    transform: scale(1.3);
-    transform-origin: left center;
 }
 
 .footer-about__text {
