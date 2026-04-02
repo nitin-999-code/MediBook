@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Auth {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  userId   String?
+  role     UserRole
+
+  @@map("Auth")
+}
+
+model Patient {
+  id          String    @id @default(uuid())
+  firstName   String
+  lastName    String
+  dateOfBirth String?
+  bloodGroup  String?
+  mobile      String?
+  city        String?
+  state       String?
+  zipCode     String?
+  country     String?
+  email       String    @unique
+  address     String?
+  img         String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  booking     Booking[]
+  Reviews     Reviews[]
+
+  @@map("Patient")
+}
+
+model Doctor {
+  id             String  @id @default(uuid())
+  firstName      String
+  lastName       String
+  email          String  @unique
+  address        String?
+  img            String?
+  phone          String?
+  gender         Gender?
+  dob            String?
+  biography      String?
+  clinicName     String?
+  clinicAddress  String?
+  clinicImages   String?
+  city           String?
+  state          String?
+  country        String?
+  postalCode     String?
+  price          String?
+  services       String?
+  specialization String?
+  degree         String?
+  college        String?
+  completionYear String?
+  experience     String?
+  designation    String?
+  award          String?
+  registration   String?
+  year           String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  booking   Booking[]
+  TimeSlot  TimeSlot[]
+  Reviews   Reviews[]
+
+  @@map("Doctor")
+}
+
+model Booking {
+  id        String  @id @default(uuid())
+  patientId String
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  doctorId String
+  doctor   Doctor @relation(fields: [doctorId], references: [id])
+
+  appointmentTime DateTime
+  purpose         String?
+  paidtype        PaidType?
+  status          AppointmentStatus?
+  totalAmount     Int
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@map("Booking")
+}
+
+model TimeSlot {
+  id String @id @default(uuid())
+
+  doctorId String
+  doctor   Doctor @relation(fields: [doctorId], references: [id])
+
+  start          String
+  end            String
+  day            String
+  weekDay        String
+  maximumPatient Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("TimeSlot")
+}
+
+model Reviews {
+  id String @id @default(uuid())
+
+  doctorId String
+  doctor   Doctor @relation(fields: [doctorId], references: [id])
+
+  patientId String
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  description   String
+  star          Int
+  isRecommended String
+  response      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("Reviews")
+}
+
+enum UserRole {
+  admin
+  patient
+  doctor
+}
+
+enum PaidType {
+  online
+  cash
+}
+
+enum Gender {
+  male
+  female
+}
+
+enum AppointmentStatus {
+  accept
+  cancel
+}
