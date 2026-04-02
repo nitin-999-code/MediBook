@@ -18,15 +18,19 @@
 }
 
 .auth-logo {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
     width: 100%;
-    margin-bottom: -20px;
+    height: 50px;
+    position: relative;
+    margin-bottom: 24px;
 }
 
 .auth-logo-img {
-    width: 180px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -46%); /* Centered but shifted up slightly to adjust for the logo's internal padding */
+    width: 160px; /* decreased from 180px per request */
     height: auto;
     object-fit: contain;
 }
