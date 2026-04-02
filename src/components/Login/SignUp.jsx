@@ -37,40 +37,6 @@ const SignUp = ({ setSignUp }) => {
         setUser(formField);
     };
 
-    useEffect(() => {
-        // doctor account
-        if (dIsError && dError) {
-            message.error("Email Already Exist !!");
-            setLoading(false);
-        }
-
-        if (!dIsError && dIsSuccess) {
-            handleSignUpSuccess();
-            setLoading(false);
-            swal({
-                icon: 'success',
-                text: `Successfully Account Created Please Verify Your email`,
-                timer: 5000
-            });
-        }
-
-        // Patient account
-        if (pIsError && pError) {
-            message.error("Email Already Exist !!");
-            setLoading(false);
-        }
-        if (!pIsError && pIsSuccess) {
-            handleSignUpSuccess();
-            setLoading(false);
-            setSignUp(false);
-            swal({
-                icon: 'success',
-                text: `Successfully ${userType === 'doctor' ? 'Doctor' : 'Patient'} Account Created Please Login`,
-                timer: 2000
-            });
-        }
-    }, [dIsError, dError, pError, pIsError, dIsSuccess, pIsSuccess, setSignUp, userType]); 
-
     const handleEmailError = (name, value) => {
         if (name === 'email') {
             setEmailError({
@@ -119,10 +85,29 @@ const SignUp = ({ setSignUp }) => {
     const hanldeOnSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        if (userType === "doctor") {
-            doctorSignUp(user);
-        } else {
-            patientSignUp(user);
+        try {
+            if (userType === "doctor") {
+                await doctorSignUp(user).unwrap();
+                swal({
+                    icon: 'success',
+                    text: `Successfully Account Created Please Verify Your email`,
+                    timer: 5000
+                });
+                handleSignUpSuccess();
+            } else {
+                await patientSignUp(user).unwrap();
+                swal({
+                    icon: 'success',
+                    text: `Successfully ${userType === 'doctor' ? 'Doctor' : 'Patient'} Account Created Please Login`,
+                    timer: 2000
+                });
+                handleSignUpSuccess();
+                setSignUp(false);
+            }
+        } catch (error) {
+            message.error("Email Already Exist !!");
+        } finally {
+            setLoading(false);
         }
     };
 
