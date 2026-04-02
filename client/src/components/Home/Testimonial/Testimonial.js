@@ -20,7 +20,7 @@ const Testimonial = () => {
                     <div className="d-flex justify-content-center ">
                         <div className="row w-80 ">
                             {
-                                data && data?.map(review => <TestimonialDetails key={review._id} testimonial={review}></TestimonialDetails>)
+                                (Array.isArray(data) ? data : []).map(review => <TestimonialDetails key={review._id} testimonial={review}></TestimonialDetails>)
                             }
                         </div>
                     </div>

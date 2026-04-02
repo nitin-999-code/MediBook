@@ -67,7 +67,7 @@ const AddReview = () => {
                     </thead>
                     <tbody>
                         {
-                            data && data.map((item, index) =>
+                            (Array.isArray(data) ? data : []).map((item, index) =>
                                 <tr className="pateint-table-data" key={index + 1020}>
                                     <th className="text-center">{index + 1}</th>
                                     <td>{item.name}</td>

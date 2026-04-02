@@ -15,7 +15,7 @@ import Form from 'react-bootstrap/Form';
 const DoctorList = () => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const [userData, setUserData] = useState({})
-    const [searchData, setSearchData] = useState({})
+    const [searchData, setSearchData] = useState([])
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,7 +25,7 @@ const DoctorList = () => {
     const onSubmit = async (event) => {
         try {
             const response = await axios.get(`${baseUrl}/auth/doctors?email=${event.email}`);
-            setSearchData(response.data)
+            setSearchData(response.data.data || [])
             handleShow();
         } catch (err) {
             console.log()
@@ -75,7 +75,7 @@ const DoctorList = () => {
                     </thead>
                     <tbody>
                         {
-                            data && data.map((item, index) =>
+                            (Array.isArray(data) ? data : []).map((item, index) =>
                                 <tr className="pateint-table-data" key={index + 100}>
                                     <th className="text-center">{index + 1}</th>
                                     <td>{item.username}</td>

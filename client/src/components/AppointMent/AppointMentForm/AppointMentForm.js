@@ -71,7 +71,7 @@ const AppointMentForm = ({modalIsOpen, appointMentDate, closeModal, date }) => {
                             <select className="form-control" name="doctor_id"  {...register("doctor_id", { required: true })}>
                                 <option disabled={true} value="Not set">Select Doctor</option>
                                 {
-                                    data && data.map((item) =>(
+                                    (Array.isArray(data) ? data : []).map((item) =>(
                                         <option value={item._id} key={item._id + 20000}>{item.username}</option>
                                     ))
                                 }

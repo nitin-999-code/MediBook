@@ -14,7 +14,7 @@ const Doctor = () => {
             <div className=" container">
                 <div className="row d-flex justify-content-center">
                 {
-                    data && data.map(item => <DoctorDetail key={item._id} item={item}></DoctorDetail>)
+                    (Array.isArray(data) ? data : []).map(item => <DoctorDetail key={item._id} item={item}></DoctorDetail>)
                 }
                 </div>
             </div>

@@ -16,14 +16,15 @@ const Dashboard = () => {
         setSelectedDate(date);
     }
     const showAllPatientsList = () =>{
-        setAppointments(data);
+        setAppointments(Array.isArray(data) ? data : []);
     }
 
     useEffect(() =>{
         const fetchData = async () => {
             try {
                 const res = await axios.post(`${baseUrl}/auth/appointByDate`, { date: selectedDate })
-                setAppointments(res.data)
+                const result = res.data;
+                setAppointments(Array.isArray(result) ? result : (Array.isArray(result?.data) ? result.data : []))
             } catch (err) {
                 console.log(err)
             }

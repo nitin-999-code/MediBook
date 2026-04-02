@@ -17,7 +17,7 @@ const AppointMentShorList = ({ appointment }) => {
                 </tr>
             </thead>
             <tbody>
-                {appointment && appointment?.map((item, index) =>
+                {(Array.isArray(appointment) ? appointment : []).map((item, index) =>
                     <tr key={index + 200}>
                         <td>{index + 1}</td>
                         <td>{item.username}</td>
