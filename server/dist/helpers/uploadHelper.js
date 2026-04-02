@@ -27,7 +27,7 @@ const uploadFile = (file) => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error('File not Provided or Invalid');
     }
     return new Promise((resolve, reject) => {
-        cloudinary_1.v2.uploader.upload_stream({ resource_type: 'auto', folder: 'doctorOnCall' }, (error, result) => {
+        cloudinary_1.v2.uploader.upload_stream({ resource_type: 'auto', folder: 'medibook' }, (error, result) => {
             if (error) {
                 reject(error);
             }

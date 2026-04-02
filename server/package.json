@@ -4,7 +4,7 @@
   "description": "Doctor appointment API",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "compile": "node ./dist/server.js",
     "lint:check": "eslint --ignore-path .eslintignore --ext .js,.ts .",

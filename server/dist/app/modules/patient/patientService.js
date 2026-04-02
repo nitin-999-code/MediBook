@@ -33,29 +33,27 @@ const create = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield prisma_1.default.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
             const { password } = payload, othersData = __rest(payload, ["password"]);
+            // Check Email existing
+            const existEmail = yield tx.auth.findUnique({ where: { email: othersData.email } });
+            if (existEmail) {
+                throw new apiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, "Email Already Exist !!");
+            }
             const patient = yield tx.patient.create({
                 data: othersData,
             });
             if (patient) {
-                // Check Email existing
-                const existEmail = yield tx.auth.findUnique({ where: { email: patient.email } });
-                if (existEmail) {
-                    throw new apiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, "Email Already Exist !!");
-                }
-                else {
-                    const auth = yield tx.auth.create({
-                        data: {
-                            email: patient.email,
-                            password: password && (yield bcrypt_1.default.hashSync(password, 12)),
-                            role: client_1.UserRole.patient,
-                            userId: patient.id
-                        },
-                    });
-                    return {
-                        patient,
-                        auth,
-                    };
-                }
+                const auth = yield tx.auth.create({
+                    data: {
+                        email: patient.email,
+                        password: password ? yield bcrypt_1.default.hashSync(password, 12) : "",
+                        role: client_1.UserRole.patient,
+                        userId: patient.id
+                    },
+                });
+                return {
+                    patient,
+                    auth,
+                };
             }
         }));
         return data;
