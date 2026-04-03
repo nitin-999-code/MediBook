@@ -7,7 +7,8 @@ import { useGetDoctorsQuery } from '../../../redux/api/doctorApi';
 import { Pagination } from 'antd';
 import Header from '../../Shared/Header/Header';
 import { SkeletonCard, EmptyState } from '../../UI';
-import { useDemoFallback, mockDoctors } from '../../../config/demoMode';
+import { mockDoctors } from '../../../config/demoMode';
+import { safeArray } from '../../../utils/safeData';
 import './SearchDoctor.css';
 
 const SearchDoctor = () => {
@@ -61,7 +62,7 @@ const SearchDoctor = () => {
 
     const { data, isLoading, isError } = useGetDoctorsQuery(query);
     const apiDoctorsData = data?.doctors ?? [];
-    const doctorsData = useDemoFallback(apiDoctorsData, mockDoctors);
+    const doctorsData = safeArray(apiDoctorsData, mockDoctors);
     
     const meta = data?.meta;
     const total = meta?.total || (doctorsData === mockDoctors ? mockDoctors.length : 0);

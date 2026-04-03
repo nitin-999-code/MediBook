@@ -3,6 +3,7 @@ import DashboardLayout from '../DashboardLayout/DashboardLayout';
 import { useGetFavouriteQuery, useRemoveFavouriteMutation } from '../../../redux/api/favouriteApi';
 import { Card, Empty, message, Button, Avatar, Tag, Rate, Spin } from 'antd';
 import { FaMapMarkerAlt, FaCheckCircle, FaHeart, FaDollarSign, FaCalendar, FaUser } from "react-icons/fa";
+import { SkeletonCard, EmptyState } from '../../UI';
 import './PatientFavourite.css';
 
 const PatientFavouriteDoctor = () => {
@@ -21,8 +22,8 @@ const PatientFavouriteDoctor = () => {
     if (isLoading) {
         return (
             <DashboardLayout>
-                <div className="text-center p-5">
-                    <Spin size="large" />
+                <div className="p-4 favourite-doctors-grid">
+                    <SkeletonCard count={4} />
                 </div>
             </DashboardLayout>
         );
@@ -32,7 +33,7 @@ const PatientFavouriteDoctor = () => {
         return (
             <DashboardLayout>
                 <Card>
-                    <Empty description="Something went wrong loading favourites" />
+                    <EmptyState type="generic" title="Unable to load favourites" description="Please try again later." />
                 </Card>
             </DashboardLayout>
         );

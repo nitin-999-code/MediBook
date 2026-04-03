@@ -196,7 +196,7 @@ const Schedule = () => {
                 />
 
                 <Card loading={isLoading}>
-                    {isError && <Empty description="Something went wrong loading schedule" />}
+                    {isError && <Empty description="Unable to load schedule. Please try again later." />}
                     
                     {!isLoading && !isError && data?.length === 0 && (
                         <Empty description="No schedule set for this day" />

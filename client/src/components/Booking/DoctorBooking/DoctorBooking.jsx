@@ -4,6 +4,7 @@ import img from '../../../images/doc/doctor 3.jpg'
 import './index.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Empty, Button, message, Steps } from 'antd';
+import { mockDoctors } from '../../../config/demoMode';
 import { useGetDoctorQuery } from '../../../redux/api/doctorApi';
 import { FaArchway } from "react-icons/fa";
 import { useGetAppointmentTimeQuery } from '../../../redux/api/timeSlotApi';
@@ -45,8 +46,10 @@ const DoctorBooking = () => {
     const [createAppointment, { data: appointmentData, isSuccess: createIsSuccess, isError: createIsError, error: createError, isLoading: createIsLoading }] = useCreateAppointmentMutation();
     const { doctorId } = useParams();
     const navigation = useNavigate();
-    const { data, isLoading, isError, error } = useGetDoctorQuery(doctorId);
-    const { data: time, refetch, isLoading: dIsLoading, isError: dIsError, error: dError } = useGetAppointmentTimeQuery({ day: selectDay, id: doctorId });
+    const { data: apiData, isLoading, isError, error } = useGetDoctorQuery(doctorId);
+    const data = (!isLoading && !apiData?.id) ? (mockDoctors.find(d => d.id === doctorId) || mockDoctors[0]) : apiData;
+    
+    const { data: time, refetch, isLoading: dIsLoading, isError: dIsError, error: dError } = useGetAppointmentTimeQuery({ day: selectDay, id: data?.id });
 
     const [selectValue, setSelectValue] = useState(initialValue);
     const [IsdDisable, setIsDisable] = useState(true);
@@ -75,9 +78,9 @@ const DoctorBooking = () => {
     const prev = () => { setCurrent(current - 1) };
 
     let dContent = null;
-    if (dIsLoading) dContent = <div>Loading ...</div>
-    if (!dIsLoading && dIsError) dContent = <div>Something went Wrong!</div>
-    if (!dIsLoading && !dIsError && time.length === 0) dContent = <Empty children="Doctor Is not Available" />
+    if (dIsLoading) dContent = <div>Loading time slots...</div>
+    if (!dIsLoading && dIsError) dContent = <div className="text-danger">No available time slots for this date</div>
+    if (!dIsLoading && !dIsError && (!time || time.length === 0)) dContent = <Empty description="No available time slots for this date" />
     if (!dIsLoading && !dIsError && time.length > 0) dContent =
         <>
             {
@@ -91,9 +94,8 @@ const DoctorBooking = () => {
 
     //What to render
     let content = null;
-    if (!isLoading && isError) content = <div>Something Went Wrong!</div>
-    if (!isLoading && !isError && data?.id === undefined) content = <Empty />
-    if (!isLoading && !isError && data?.id) content =
+    if (!data?.id) content = <Empty description="Doctor details not found" />
+    if (data?.id) content =
         <>
             <div className="booking-doc-img my-3 mb-3 rounded">
                 <Link to={`/doctors/${data?.id}`}>

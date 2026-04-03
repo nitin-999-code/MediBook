@@ -5,7 +5,8 @@ import { FaEye, FaCheck, FaTimes, FaBriefcaseMedical, FaSearch } from 'react-ico
 import { useGetDoctorAppointmentsQuery, useUpdateAppointmentMutation } from '../../../redux/api/appointmentApi';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { useDemoFallback, mockAppointments } from '../../../config/demoMode';
+import { mockAppointments } from '../../../config/demoMode';
+import { safeArray } from '../../../utils/safeData';
 import { EmptyState } from '../../UI';
 import './Appointments.css';
 
@@ -22,7 +23,7 @@ const Appointments = () => {
     const [updateAppointment, { isLoading: isUpdating }] = useUpdateAppointmentMutation();
 
     const apiAppointments = data || [];
-    const appointments = useDemoFallback(apiAppointments, mockAppointments);
+    const appointments = safeArray(apiAppointments, mockAppointments);
 
     const filteredAppointments = useMemo(() => {
         let result = appointments;

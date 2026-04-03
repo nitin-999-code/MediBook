@@ -22,6 +22,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Table, Tag, Button, Avatar, Card, Typography } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { SkeletonList } from '../../UI';
 import '../DashboardLayout/DashboardLayout.css';
 import './DashboardHome.css';
 
@@ -39,8 +40,8 @@ const Dashboard = () => {
 
 const DoctorDashboard = () => {
 	const { data: appointmentsData, isLoading: appointmentsLoading } = useGetDoctorAppointmentsQuery({});
-	const { data: patientsData } = useGetDoctorPatientsQuery();
-	const { data: invoicesData } = useGetDoctorInvoicesQuery();
+	const { data: patientsData, isLoading: patientsLoading } = useGetDoctorPatientsQuery();
+	const { data: invoicesData, isLoading: invoicesLoading } = useGetDoctorInvoicesQuery();
 
 	const appointments = appointmentsData || [];
 	const patients = patientsData || [];
@@ -70,6 +71,14 @@ const DoctorDashboard = () => {
 			};
 		});
 	}, [appointments]);
+
+	if (appointmentsLoading || patientsLoading || invoicesLoading) {
+		return (
+			<div className="p-4">
+				<SkeletonList count={5} />
+			</div>
+		);
+	}
 
 	const recentAppointments = appointments.slice(0, 5);
 
@@ -202,9 +211,9 @@ const DoctorDashboard = () => {
 
 const PatientDashboard = () => {
 	const { data: appointmentsData, isLoading } = useGetPatientAppointmentsQuery();
-	const { data: invoicesData } = useGetPatientInvoicesQuery();
-	const { data: favourites } = useGetFavouriteQuery();
-	const { data: prescriptions } = useGetPatientPrescriptionQuery();
+	const { data: invoicesData, isLoading: invoicesLoading } = useGetPatientInvoicesQuery();
+	const { data: favourites, isLoading: favLoading } = useGetFavouriteQuery();
+	const { data: prescriptions, isLoading: rxLoading } = useGetPatientPrescriptionQuery();
 
 	const appointments = appointmentsData || [];
 	const invoices = invoicesData || [];
@@ -221,6 +230,14 @@ const PatientDashboard = () => {
 			totalSpent,
 		};
 	}, [appointments, invoices]);
+
+	if (isLoading || invoicesLoading || favLoading || rxLoading) {
+		return (
+			<div className="p-4">
+				<SkeletonList count={5} />
+			</div>
+		);
+	}
 
 	const recentAppointments = appointments.slice(0, 5);
 	const lastVisit = appointments.find((a) => a.status === 'Completed');

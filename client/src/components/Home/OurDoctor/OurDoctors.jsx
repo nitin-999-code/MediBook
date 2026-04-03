@@ -4,36 +4,20 @@ import { FaUserMd, FaStar } from 'react-icons/fa';
 import { Empty } from 'antd';
 import { useGetDoctorsQuery } from '../../../redux/api/doctorApi';
 import { Link } from 'react-router-dom';
+import { safeArray } from '../../../utils/safeData';
+import { mockDoctors } from '../../../config/demoMode';
+import { SkeletonCard } from '../../UI';
 
 const OurDoctors = () => {
     const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 4 });
-    const doctors = data?.doctors;
+    const apiDoctors = data?.doctors;
+    const doctors = safeArray(apiDoctors, mockDoctors.slice(0, 4));
 
     let content = null;
     if (isLoading) {
         content = (
-            <>
-                {[1, 2, 3, 4].map((i) => (
-                    <div className="col-sm-6 col-lg-3 mb-4" key={i}>
-                        <div className="doctor-card-modern shadow-sm border-0">
-                            <div className="skeleton-avatar mx-auto mt-4" />
-                            <div className="skeleton-text mx-auto mt-3" />
-                            <div className="skeleton-text mx-auto mt-2 w-50" />
-                        </div>
-                    </div>
-                ))}
-            </>
-        );
-    } else if (!isLoading && isError) {
-        content = (
-            <div className="col-12 text-center py-5">
-                <p>Unable to load doctors. Please try again.</p>
-            </div>
-        );
-    } else if (!isLoading && (!doctors || doctors.length === 0)) {
-        content = (
-            <div className="col-12 py-5">
-                <Empty description="No doctors to show" />
+            <div className="row justify-content-center w-100">
+                <SkeletonCard count={4} className="col-sm-6 col-lg-3 mb-4" />
             </div>
         );
     } else if (doctors?.length > 0) {

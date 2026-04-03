@@ -122,7 +122,7 @@ const AppointmentPage = () => {
       return () => clearTimeout(t);
     }
     if (isError) {
-      message.error(error?.data?.message || 'Something went wrong');
+      message.error(error?.data?.message || 'Unable to schedule appointment. Please try again.');
     }
   }, [isSuccess, isError, appointmentData, error, dispatch, navigate]);
 

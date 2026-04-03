@@ -5,11 +5,15 @@ import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 import { Card, Avatar, Rate, Tag, Empty, Spin, Input, Select } from 'antd';
 import { FaThumbsUp, FaThumbsDown, FaStar, FaSearch } from 'react-icons/fa';
 import moment from 'moment';
+import { safeArray } from '../../../utils/safeData';
+import { mockReviews } from '../../../config/demoMode';
+import { EmptyState, SkeletonList } from '../../UI';
 import './Reviews.css';
 
 const Reviews = () => {
     const { data: loginInfo } = useAuthCheck();
-    const { data, isError, isLoading } = useGetDoctorReviewsQuery(loginInfo?.id);
+    const { data: apiData, isError, isLoading } = useGetDoctorReviewsQuery(loginInfo?.id);
+    const data = safeArray(apiData, mockReviews);
     const [searchTerm, setSearchTerm] = useState('');
     const [ratingFilter, setRatingFilter] = useState('all');
 
@@ -52,8 +56,8 @@ const Reviews = () => {
     if (isLoading) {
         return (
             <DashboardLayout>
-                <div className="text-center p-5">
-                    <Spin size="large" />
+                <div className="p-4">
+                    <SkeletonList count={3} />
                 </div>
             </DashboardLayout>
         );
@@ -63,7 +67,7 @@ const Reviews = () => {
         return (
             <DashboardLayout>
                 <Card>
-                    <Empty description="Something went wrong loading reviews" />
+                    <EmptyState type="generic" title="Unable to load reviews" description="Please try again later." />
                 </Card>
             </DashboardLayout>
         );

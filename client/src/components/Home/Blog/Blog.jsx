@@ -5,46 +5,21 @@ import { useGetAllBlogsQuery } from '../../../redux/api/blogApi';
 import { Link } from 'react-router-dom';
 import { truncate } from '../../../utils/truncate';
 import { FaUser, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import { safeArray } from '../../../utils/safeData';
+import { mockBlogPosts } from '../../../config/demoMode';
+import { SkeletonCard } from '../../UI';
 import './Blog.css';
 
 const Blog = () => {
 	const { data, isError, isLoading } = useGetAllBlogsQuery({ limit: 3 });
-	const blogData = data?.blogs;
-
-	useEffect(() => {
-		if (!isLoading && isError) {
-			message.error('Something went wrong. Please try again.');
-		}
-	}, [isLoading, isError]);
+	const apiBlogData = data?.blogs;
+    const blogData = safeArray(apiBlogData, mockBlogPosts.slice(0, 3));
 
 	let content = null;
 	if (isLoading) {
 		content = (
-			<>
-				{[1, 2, 3].map((i) => (
-					<div className="col-md-4 col-sm-12 mb-4" key={i}>
-						<div className="blog-card blog-card--skeleton">
-							<div className="blog-card__img" />
-							<div className="blog-card__body">
-								<div className="blog-card__title-skeleton" />
-								<div className="blog-card__meta-skeleton" />
-								<div className="blog-card__excerpt-skeleton" />
-							</div>
-						</div>
-					</div>
-				))}
-			</>
-		);
-	} else if (!isLoading && isError) {
-		content = (
-			<div className="col-12 text-center py-5">
-				<p className="blog-error">Unable to load posts. Please try again later.</p>
-			</div>
-		);
-	} else if (!isLoading && (!blogData || blogData.length === 0)) {
-		content = (
-			<div className="col-12 py-5">
-				<Empty description="No blog posts yet" />
+			<div className="row justify-content-center w-100">
+				<SkeletonCard count={3} className="col-md-4 col-sm-12 mb-4" />
 			</div>
 		);
 	} else if (blogData?.length > 0) {
