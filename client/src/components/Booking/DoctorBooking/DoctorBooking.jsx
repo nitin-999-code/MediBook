@@ -41,6 +41,7 @@ const DoctorBooking = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [selectDay, setSelecDay] = useState('');
     const [selectTime, setSelectTime] = useState('');
+    const [selectSlotId, setSelectSlotId] = useState('');
     const [isCheck, setIsChecked] = useState(false);
     const [patientId, setPatientId] = useState('');
     const [createAppointment, { data: appointmentData, isSuccess: createIsSuccess, isError: createIsError, error: createError, isLoading: createIsLoading }] = useCreateAppointmentMutation();
@@ -74,21 +75,29 @@ const DoctorBooking = () => {
         refetch();
     }
     const disabledDateTime = (current) => current && (current < moment().add(1, 'day').startOf('day') || current > moment().add(8, 'days').startOf("day"))
-    const handleSelectTime = (date) => { setSelectTime(date) }
+    const handleSelectTime = (time, id) => { 
+        setSelectTime(time);
+        setSelectSlotId(id);
+    }
 
     const next = () => { setCurrent(current + 1) };
     const prev = () => { setCurrent(current - 1) };
 
     let dContent = null;
     if (dIsLoading) dContent = <div>Loading time slots...</div>
-    if (!dIsLoading && dIsError) dContent = <div className="text-danger">No available data right now</div>
-    if (!dIsLoading && !dIsError && (!time || time.length === 0)) dContent = <Empty description="No available data right now" />
+    if (!dIsLoading && dIsError) dContent = <div className="text-danger flex-column d-flex align-items-center justify-content-center w-100 py-3"><p>No time slots available for this date</p><small>Please select another date</small></div>
+    if (!dIsLoading && !dIsError && (!time || time.length === 0)) dContent = (
+        <div className="w-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <Empty description="No time slots available for this date" />
+            <p className="text-muted mt-2">Please select another date</p>
+        </div>
+    )
     if (!dIsLoading && !dIsError && time.length > 0) dContent =
         <>
             {
                 time && time.map((item, id) => (
                     <div className="col-md-4" key={id + 155}>
-                        <Button type={item?.slot?.time === selectTime ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime(item?.slot?.time)}> {item?.slot?.time} </Button>
+                        <Button type={item?.slot?.time === selectTime ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime(item?.slot?.time, item?.slot?.id)}> {item?.slot?.time} </Button>
                     </div>
                 ))
             }
@@ -146,26 +155,12 @@ const DoctorBooking = () => {
     }))
 
     const handleConfirmSchedule = () => {
-        const obj = {};
-        obj.patientInfo = {
-            firstName: selectValue.firstName,
-            lastName: selectValue.lastName,
-            email: selectValue.email,
-            phone: selectValue.phone,
-            scheduleDate: selectedDate,
-            scheduleTime: selectTime,
+        const obj = {
             doctorId: doctorId,
-            patientId: role !== '' && role === 'patient' ? patientId : undefined,
-        }
-        obj.payment = {
-            paymentType: selectValue.paymentType,
-            paymentMethod: selectValue.paymentMethod,
-            cardNumber: selectValue.cardNumber,
-            cardExpiredYear: selectValue.cardExpiredYear,
-            cvv: selectValue.cvv,
-            expiredMonth: selectValue.expiredMonth,
-            nameOnCard: selectValue.nameOnCard
-        }
+            appointmentTime: new Date(`${selectedDate} ${selectTime}`).toISOString(),
+            totalAmount: 150,
+            status: 'pending'
+        };
         createAppointment(obj);
     }
 

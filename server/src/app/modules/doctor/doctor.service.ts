@@ -65,8 +65,21 @@ const deleteDoctor = async (id: string): Promise<any> => {
 }
 
 const updateDoctor = async (id: string, payload: Partial<Doctor>): Promise<Doctor> => {
+    const existingDoctor = await prisma.doctor.findUnique({ where: { id } });
+    if (!existingDoctor) throw new ApiError(httpStatus.NOT_FOUND, "Doctor not found");
+
+    const mergedData = { ...existingDoctor, ...payload };
+
+    const isComplete = Boolean(
+        mergedData.phone &&
+        mergedData.specialization &&
+        mergedData.clinicName &&
+        mergedData.biography && mergedData.biography.length > 0 &&
+        mergedData.price
+    );
+
     const result = await prisma.doctor.update({
-        data: payload,
+        data: { ...payload, profileComplete: isComplete },
         where: {
             id: id
         }

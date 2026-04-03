@@ -5,7 +5,7 @@ import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 import { Link, useNavigate } from 'react-router-dom';
 import img from '../../../images/logo.png';
 import avatar from '../../../images/avatar.jpg';
-import { Button, message } from 'antd';
+import { Button, message, Popover } from 'antd';
 import { getUserInfo, loggedOut } from '../../../service/auth.service';
 import HeaderNav from './HeaderNav';
 
@@ -103,16 +103,33 @@ const Header = () => {
                     </Link>
                     <HeaderNav
                         isLoggedIn={isLoggedIn}
-                        data={data}
-                        avatar={avatar}
-                        content={content}
-                        popoverTitle={popoverTitle}
                         open={open}
                         setOpen={setOpen}
                     />
                     <Link to={'/appointment'} className="appointment-btn scrollto">
                         <span className="d-none d-md-inline">Make an</span> Appointment
                     </Link>
+                    {isLoggedIn && (
+                        <div style={{ marginLeft: '20px' }}>
+                            <Popover
+                                title={popoverTitle}
+                                content={content}
+                                placement="bottom"
+                                trigger="hover"
+                                mouseEnterDelay={0.12}
+                                overlayClassName="header-user-popover"
+                            >
+                                <div className="profileImage" role="button" tabIndex={0} aria-haspopup="true">
+                                    <img
+                                        src={data?.img ? data.img : avatar}
+                                        alt=""
+                                        className="profileImage shadow img-fluid"
+                                        style={{ height: '40px', width: '40px', borderRadius: '50%', objectFit: 'cover' }}
+                                    />
+                                </div>
+                            </Popover>
+                        </div>
+                    )}
                 </div>
             </header>
         </>

@@ -64,7 +64,15 @@ const Review = ({ doctorId }) => {
 	} else if (isError) {
 		content = <div className="reviews-error">Unable to load reviews</div>;
 	} else if (!data || data.length === 0) {
-		content = <Empty description="No reviews yet. Be the first to review!" />;
+		content = (
+			<Empty
+				description="No reviews yet. Be the first to share your experience."
+			>
+				<Button type="primary" onClick={() => document.querySelector('.review-form').scrollIntoView({ behavior: 'smooth' })}>
+					Write Review
+				</Button>
+			</Empty>
+		);
 	} else {
 		content = data.map((item) => (
 			<div className="review-card" key={item.id}>

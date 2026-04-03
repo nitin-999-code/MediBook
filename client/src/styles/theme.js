@@ -8,11 +8,11 @@
 const theme = {
   colors: {
     // Primary palette — deep teal family
-    primary:       '#0A6E55',
-    primaryLight:  '#0D9E7A',
-    primaryDark:   '#064D3B',
-    primaryBg:     '#EEFAF5',
-    primaryGhost:  'rgba(10,110,85,0.06)',
+    primary:       '#166534',
+    primaryLight:  '#15803d',
+    primaryDark:   '#14532d',
+    primaryBg:     '#eefaff',
+    primaryGhost:  'rgba(22, 101, 52, 0.06)',
 
     // Accent — warm amber for CTAs / highlights
     accent:        '#E8913A',

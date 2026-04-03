@@ -91,6 +91,11 @@ const ProfileSetting = () => {
             }
 
             message.success('Profile updated successfully!');
+            if (imageFile) {
+                setTimeout(() => {
+                    window.location.href = window.location.pathname + '?t=' + new Date().getTime();
+                }, 1000);
+            }
         } catch (error) {
             message.error('Failed to update profile');
         }

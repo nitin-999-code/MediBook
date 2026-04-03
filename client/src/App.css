@@ -13,11 +13,11 @@
 
 :root {
   /* ── Primary palette ── */
-  --primary:       #0A6E55;
-  --primary-light: #0D9E7A;
-  --primary-dark:  #064D3B;
-  --primary-bg:    #EEFAF5;
-  --primary-ghost: rgba(10,110,85,0.06);
+  --primary:       #166534;
+  --primary-light: #15803d;
+  --primary-dark:  #14532d;
+  --primary-bg:    #eefaff;
+  --primary-ghost: rgba(22, 101, 52, 0.06);
 
   /* ── Accent ── */
   --accent:        #E8913A;

@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './index.css';
 import { useGetAllReviewsQuery } from '../../../redux/api/reviewsApi';
 import StarRatings from 'react-star-ratings';
 import { truncate } from '../../../utils/truncate';
 import { FaCheck, FaUser } from 'react-icons/fa';
+import EmptyState from '../../UI/EmptyState';
+import { Empty } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -38,8 +41,16 @@ const Testimonial = () => {
 		);
 	} else if (!isLoading && (!data || data.length === 0)) {
 		content = (
-			<div className="col-12 text-center py-5">
-				<p className="testimonial-empty">No reviews yet.</p>
+			<div className="col-12 py-5 d-flex justify-content-center">
+				<Empty
+					description={
+						<span>No reviews yet. Be the first to share your experience.</span>
+					}
+				>
+					<Link to="/doctors">
+						<button className="btn btn-primary" style={{ background: '#166534', borderColor: '#166534' }}>Write Review</button>
+					</Link>
+				</Empty>
 			</div>
 		);
 	} else if (data?.length > 0) {

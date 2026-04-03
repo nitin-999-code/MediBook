@@ -73,6 +73,7 @@ model Doctor {
   booking   Booking[]
   TimeSlot  TimeSlot[]
   Reviews   Reviews[]
+  profileComplete Boolean? @default(false)
 
   @@map("Doctor")
 }

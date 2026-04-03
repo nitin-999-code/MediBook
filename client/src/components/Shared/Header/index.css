@@ -117,7 +117,6 @@
     color: var(--text-sec);
     white-space: nowrap;
     transition: all var(--transition-fast);
-    border-bottom: 2px solid transparent;
     padding: 6px 2px;
     letter-spacing: 0.01em;
 }
@@ -134,7 +133,6 @@
 .navbar .active:focus,
 .navbar li:hover>a {
     color: var(--primary);
-    border-bottom: 2px solid var(--primary);
 }
 
 .navbar .dropdown ul {

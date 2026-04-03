@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import DashboardLayout from '../DashboardLayout/DashboardLayout';
 import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 import {
@@ -21,7 +21,7 @@ import { useGetPatientPrescriptionQuery } from '../../../redux/api/prescriptionA
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, Tag, Button, Avatar, Card, Typography } from 'antd';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SkeletonList } from '../../UI';
 import '../DashboardLayout/DashboardLayout.css';
 import './DashboardHome.css';
@@ -29,7 +29,18 @@ import './DashboardHome.css';
 const { Text } = Typography;
 
 const Dashboard = () => {
-	const { role } = useAuthCheck();
+	const { role, data } = useAuthCheck();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (role === 'doctor' && data && Object.keys(data).length > 0 && !data.profileComplete) {
+			navigate('/dashboard/profile-setting');
+		}
+	}, [role, data, navigate]);
+
+	if (role === 'doctor' && data && !data.profileComplete) {
+		return null; // Wait for redirect
+	}
 
 	return (
 		<DashboardLayout>
