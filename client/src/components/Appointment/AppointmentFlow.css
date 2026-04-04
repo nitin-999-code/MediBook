@@ -1,7 +1,7 @@
 /* Appointment flow – shared steps */
 .appointment-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f0f7ff 0%, #fff 20%);
+  background: linear-gradient(180deg, #f0fdf4 0%, #fff 20%);
 }
 
 .appointment-page .container-wrap {
@@ -60,7 +60,7 @@
 
 .select-doctor-card--selected {
   border-color: #166534 !important;
-  box-shadow: 0 4px 16px rgba(25, 119, 204, 0.2);
+  box-shadow: 0 4px 16px rgba(22, 101, 52, 0.2);
 }
 
 .select-doctor-card__img-wrap {
@@ -265,7 +265,7 @@
 
 .datetime-date-card:hover {
   border-color: #166534;
-  background: rgba(25, 119, 204, 0.06);
+  background: rgba(22, 101, 52, 0.06);
 }
 
 .datetime-date-card.datetime-date-card--active {
@@ -388,7 +388,7 @@
 
 .payment-method-option.payment-method-option--active {
   border-color: #166534;
-  background: rgba(25, 119, 204, 0.08);
+  background: rgba(22, 101, 52, 0.08);
 }
 
 .order-summary-card {
@@ -468,8 +468,8 @@
 }
 
 .appointment-actions .ant-btn-primary:hover {
-  background: #1565b8;
-  border-color: #1565b8;
+  background: #15803d;
+  border-color: #15803d;
 }
 
 .appointment-actions .ant-btn-default {

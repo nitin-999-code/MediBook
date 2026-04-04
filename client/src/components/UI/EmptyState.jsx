@@ -107,7 +107,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '32px',
-    color: 'var(--primary, #0A6E55)',
+    color: 'var(--primary, #166534)',
     marginBottom: '24px',
     boxShadow: '0 4px 20px rgba(10,110,85,0.1)',
   },
@@ -126,7 +126,7 @@ const styles = {
   button: {
     display: 'inline-block',
     padding: '12px 28px',
-    background: 'var(--primary, #0A6E55)',
+    background: 'var(--primary, #166534)',
     color: '#fff',
     borderRadius: 'var(--radius-md, 10px)',
     fontSize: '14px',

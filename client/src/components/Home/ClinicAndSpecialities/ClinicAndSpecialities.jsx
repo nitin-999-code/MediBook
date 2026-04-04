@@ -1,17 +1,17 @@
 import React from 'react';
-import img1 from '../../../images/specialities/specialities-01.png';
-import img2 from '../../../images/specialities/specialities-02.png';
-import img3 from '../../../images/specialities/specialities-03.png';
-import img4 from '../../../images/specialities/specialities-04.png';
-import img5 from '../../../images/specialities/specialities-05.png';
+import cardiologyImg from '../../../images/services/cardiology.jpg';
+import neurologyImg from '../../../images/services/neurology.jpg';
+import orthopedicsImg from '../../../images/services/orthopedics.jpg';
+import dentistryImg from '../../../images/services/dentistry.jpg';
+import pediatricImg from '../../../images/services/pediatrics.jpg';
 import './index.css';
 
 const specialities = [
-	{ name: 'Urology', img: img1 },
-	{ name: 'Neurology', img: img2 },
-	{ name: 'Orthopedic', img: img3 },
-	{ name: 'Cardiologist', img: img4 },
-	{ name: 'Dentist', img: img5 },
+	{ name: 'Pediatric', img: pediatricImg },
+	{ name: 'Neurology', img: neurologyImg },
+	{ name: 'Orthopedic', img: orthopedicsImg },
+	{ name: 'Cardiologist', img: cardiologyImg },
+	{ name: 'Dentist', img: dentistryImg },
 ];
 
 const ClinicAndSpecialities = () => {

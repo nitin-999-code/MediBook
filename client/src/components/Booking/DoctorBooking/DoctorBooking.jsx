@@ -4,7 +4,7 @@ import img from '../../../images/doc/doctor 3.jpg'
 import './index.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Empty, Button, message, Steps } from 'antd';
-import { mockDoctors } from '../../../config/demoMode';
+import { mockDoctors, mockTimeSlots } from '../../../config/demoMode';
 import { useGetDoctorQuery } from '../../../redux/api/doctorApi';
 import { FaArchway } from "react-icons/fa";
 import { useGetAppointmentTimeQuery } from '../../../redux/api/timeSlotApi';
@@ -84,24 +84,32 @@ const DoctorBooking = () => {
     const prev = () => { setCurrent(current - 1) };
 
     let dContent = null;
+    const apiSlots = (!dIsLoading && !dIsError && time && time.length > 0) ? time : [];
+    const useFallbackSlots = apiSlots.length === 0 && !dIsLoading;
+    
     if (dIsLoading) dContent = <div>Loading time slots...</div>
-    if (!dIsLoading && dIsError) dContent = <div className="text-danger flex-column d-flex align-items-center justify-content-center w-100 py-3"><p>No time slots available for this date</p><small>Please select another date</small></div>
-    if (!dIsLoading && !dIsError && (!time || time.length === 0)) dContent = (
-        <div className="w-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <Empty description="No time slots available for this date" />
-            <p className="text-muted mt-2">Please select another date</p>
-        </div>
-    )
-    if (!dIsLoading && !dIsError && time.length > 0) dContent =
-        <>
-            {
-                time && time.map((item, id) => (
+    else if (useFallbackSlots) {
+        // Use fallback mock slots when API returns empty
+        dContent = (
+            <>
+                {mockTimeSlots.map((slot, id) => (
+                    <div className="col-md-4" key={`fallback-${id}`}>
+                        <Button type={slot === selectTime ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime(slot, `demo-slot-${id}`)}> {slot} </Button>
+                    </div>
+                ))}
+            </>
+        );
+    } else {
+        dContent = (
+            <>
+                {apiSlots.map((item, id) => (
                     <div className="col-md-4" key={id + 155}>
                         <Button type={item?.slot?.time === selectTime ? "primary" : "default"} shape="round" size='large' className='mb-3' onClick={() => handleSelectTime(item?.slot?.time, item?.slot?.id)}> {item?.slot?.time} </Button>
                     </div>
-                ))
-            }
-        </>
+                ))}
+            </>
+        );
+    }
 
     //What to render
     let content = null;
@@ -159,21 +167,25 @@ const DoctorBooking = () => {
             doctorId: doctorId,
             appointmentTime: new Date(`${selectedDate} ${selectTime}`).toISOString(),
             totalAmount: parseInt(data?.price) || 150,
+            status: 'accept'
         };
+        console.log('[MediBook] Booking payload:', JSON.stringify(obj, null, 2));
         createAppointment(obj);
     }
 
     useEffect(() => {
         if (createIsSuccess) {
-            message.success("Succcessfully Appointment Scheduled")
+            console.log('[MediBook] Booking success response:', appointmentData);
+            message.success("Successfully Appointment Scheduled")
             setSelectValue(initialValue);
             dispatch(addInvoice({ ...appointmentData }))
             navigation(`/booking/success/${appointmentData.id}`)
         }
         if (createIsError) {
-            message.error(error?.data?.message);
+            console.error('[MediBook] Booking error:', createError);
+            message.error(createError?.data?.message || 'Unable to schedule appointment. Please try again.');
         }
-    }, [createIsSuccess, createError])
+    }, [createIsSuccess, createIsError])
     return (
         <>
             <Header />

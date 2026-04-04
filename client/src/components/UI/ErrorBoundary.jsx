@@ -121,7 +121,7 @@ const styles = {
   },
   primaryBtn: {
     padding: '12px 28px',
-    background: 'var(--primary, #0A6E55)',
+    background: 'var(--primary, #166534)',
     color: '#fff',
     borderRadius: 'var(--radius-md, 10px)',
     border: 'none',
@@ -134,9 +134,9 @@ const styles = {
   secondaryBtn: {
     padding: '12px 28px',
     background: 'transparent',
-    color: 'var(--primary, #0A6E55)',
+    color: 'var(--primary, #166534)',
     borderRadius: 'var(--radius-md, 10px)',
-    border: '1px solid var(--primary, #0A6E55)',
+    border: '1px solid var(--primary, #166534)',
     fontSize: '14px',
     fontWeight: 600,
     cursor: 'pointer',

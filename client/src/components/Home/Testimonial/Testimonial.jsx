@@ -126,15 +126,35 @@ const Testimonial = () => {
 				)}
 
 				{isEmpty && (
-					<div className="text-center py-5">
-						<div style={{ fontSize: '4rem', color: '#d1d5db', marginBottom: '1rem' }}>💬</div>
-						<h4 style={{ color: '#374151', fontWeight: 600, marginBottom: '0.5rem' }}>No reviews yet</h4>
-						<p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>Be the first to share your experience with our doctors.</p>
+				<div className="testimonial-empty-state">
+					<div className="testimonial-empty-card">
+						<div className="testimonial-empty-illustration">
+							<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="60" cy="60" r="58" fill="#f0fdf4" stroke="#166534" strokeWidth="2" strokeDasharray="6 4"/>
+								<path d="M40 55c0-11.046 8.954-20 20-20s20 8.954 20 20c0 7.5-4.12 14.03-10.21 17.45" stroke="#166534" strokeWidth="2.5" strokeLinecap="round"/>
+								<path d="M50 72c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#15803d" strokeWidth="2.5" strokeLinecap="round"/>
+								<circle cx="52" cy="52" r="3" fill="#166534"/>
+								<circle cx="68" cy="52" r="3" fill="#166534"/>
+								<path d="M55 61c1.5 2 3.5 3 5 3s3.5-1 5-3" stroke="#166534" strokeWidth="2" strokeLinecap="round"/>
+								<path d="M38 80l-6 12" stroke="#bbf7d0" strokeWidth="3" strokeLinecap="round"/>
+								<path d="M82 80l6 12" stroke="#bbf7d0" strokeWidth="3" strokeLinecap="round"/>
+								<path d="M30 45l-8-4" stroke="#dcfce7" strokeWidth="2" strokeLinecap="round"/>
+								<path d="M90 45l8-4" stroke="#dcfce7" strokeWidth="2" strokeLinecap="round"/>
+							</svg>
+						</div>
+						<h3 className="testimonial-empty-title">No reviews yet</h3>
+						<p className="testimonial-empty-message">
+							Be the first to share your experience with our doctors.<br/>
+							Your feedback helps others make informed health decisions.
+						</p>
 						<Link to="/doctors">
-							<Button type="primary" size="large">Find a Doctor & Write Review</Button>
+							<Button type="primary" size="large" className="testimonial-empty-cta">
+								Find a Doctor & Write Review
+							</Button>
 						</Link>
 					</div>
-				)}
+				</div>
+			)}
 
 				{hasData && (
 					<div className="testimonial-swiper-wrap">

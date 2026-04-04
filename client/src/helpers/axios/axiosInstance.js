@@ -9,7 +9,7 @@ instance.defaults.timeout = 60000;
 instance.interceptors.request.use(function (config) {
     const accessToken = getFromLocalStorage('accessToken');
     if (accessToken) {
-        config.headers.Authorization = accessToken;
+        config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
 }, function (error) {
@@ -23,5 +23,15 @@ instance.interceptors.response.use(function (response) {
     }
     return responseObj;
 }, function (error) {
+    const status = error?.response?.status;
+    if (status === 401 || status === 403) {
+        const msg = error?.response?.data?.message || '';
+        if (msg.includes('expired') || msg.includes('not Found') || msg.includes('Token')) {
+            localStorage.removeItem('accessToken');
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
+        }
+    }
     return Promise.reject(error);
 });

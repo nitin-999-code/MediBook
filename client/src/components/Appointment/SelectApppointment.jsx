@@ -1,15 +1,28 @@
-import { Button } from 'antd';
+import { Button, Spin, Empty } from 'antd';
 import moment from 'moment';
-import { FaBriefcase, FaRegClock, FaLocationArrow, FaLink, FaCalendarAlt } from 'react-icons/fa';
-import { doctorTimeSlot } from '../../constant/global';
+import { FaBriefcase, FaRegClock, FaLocationArrow, FaCalendarAlt } from 'react-icons/fa';
+import { useGetAppointmentTimeQuery } from '../../redux/api/timeSlotApi';
+import { mockTimeSlots } from '../../config/demoMode';
 import './AppointmentFlow.css';
 import './index.css';
 
 const SelectApppointment = ({ selectedDate, handleDateChange, selectTime, setSelectTime, selectedDoctor }) => {
+  const selectDay = selectedDate ? moment(selectedDate).format('dddd').toLowerCase() : '';
+  const { data: apiData, isLoading } = useGetAppointmentTimeQuery(
+    { day: selectDay, id: selectedDoctor?.id },
+    { skip: !selectedDate }
+  );
+
+  const apiSlots = apiData && Array.isArray(apiData) && apiData.length > 0 
+      ? apiData.map(item => item?.slot?.time).filter(Boolean) 
+      : [];
+
+  const slots = selectedDate ? (apiSlots.length ? apiSlots : mockTimeSlots) : [];
+
   const handleSelectTime = (time) => setSelectTime(time);
 
-  const amTimeSlot = doctorTimeSlot.filter((item) => item.includes('AM'));
-  const pmTimeSlot = doctorTimeSlot.filter((item) => item.includes('PM'));
+  const amTimeSlot = slots.filter((item) => item.includes('AM'));
+  const pmTimeSlot = slots.filter((item) => item.includes('PM'));
 
   const next7Days = Array.from({ length: 7 }, (_, i) => moment().clone().add(i + 1, 'days'));
 
@@ -75,41 +88,56 @@ const SelectApppointment = ({ selectedDate, handleDateChange, selectTime, setSel
         })}
       </div>
 
-      <p className="appointment-step__subtitle" style={{ marginBottom: '0.5rem' }}>
+      <p className="appointment-step__subtitle" style={{ marginBottom: '0.5rem', marginTop: '1.5rem' }}>
         {selectTime
           ? `Selected: ${selectTime} – ${moment(selectTime, 'hh:mm A').add(30, 'minutes').format('hh:mm A')}`
           : 'Pick a time'}
       </p>
-      <div className="datetime-times-section">
-        <h4>Morning (8AM – 12PM)</h4>
-        <div>
-          {amTimeSlot.map((slot) => (
-            <Button
-              key={slot}
-              type={slot === selectTime ? 'primary' : 'default'}
-              size="small"
-              onClick={() => handleSelectTime(slot)}
-            >
-              {slot}
-            </Button>
-          ))}
-        </div>
-      </div>
-      <div className="datetime-times-section">
-        <h4>Afternoon (1PM – 5PM)</h4>
-        <div>
-          {pmTimeSlot.map((slot) => (
-            <Button
-              key={slot}
-              type={slot === selectTime ? 'primary' : 'default'}
-              size="small"
-              onClick={() => handleSelectTime(slot)}
-            >
-              {slot}
-            </Button>
-          ))}
-        </div>
-      </div>
+      
+      {!selectedDate ? (
+        <Empty description="Please select a date to view available time slots" />
+      ) : isLoading ? (
+        <div style={{ textAlign: 'center', padding: '2rem' }}><Spin /></div>
+      ) : slots.length > 0 ? (
+        <>
+          {amTimeSlot.length > 0 && (
+            <div className="datetime-times-section">
+              <h4>Morning (8AM – 12PM)</h4>
+              <div>
+                {amTimeSlot.map((slot) => (
+                  <Button
+                    key={slot}
+                    type={slot === selectTime ? 'primary' : 'default'}
+                    size="small"
+                    onClick={() => handleSelectTime(slot)}
+                  >
+                    {slot}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+          {pmTimeSlot.length > 0 && (
+            <div className="datetime-times-section">
+              <h4>Afternoon (1PM – 5PM)</h4>
+              <div>
+                {pmTimeSlot.map((slot) => (
+                  <Button
+                    key={slot}
+                    type={slot === selectTime ? 'primary' : 'default'}
+                    size="small"
+                    onClick={() => handleSelectTime(slot)}
+                  >
+                    {slot}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <Empty description="No slots available for this date" />
+      )}
     </div>
   );
 };

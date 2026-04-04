@@ -20,6 +20,16 @@
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    Tawk_API.customStyle = { customBgColor: '#166534',
+      visibility: {
+        desktop: { position: 'br', xOffset: 20, yOffset: 20 },
+        mobile: { position: 'br', xOffset: 10, yOffset: 60 }
+      },
+      zIndex: 999
+    };
+    Tawk_API.onLoad = function(){
+      Tawk_API.setAttributes({ 'theme-color': '#166534' }, function(error){});
+    };
     (function(){
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
     s1.async=true;
@@ -30,6 +40,19 @@
     })();
     </script>
     <!--End of Tawk.to Script-->
+    <style>
+      /* Force Tawk.to chat widget green theme */
+      .tawk-min-container .tawk-button-circle,
+      .tawk-min-container .tawk-button-circle.tawk-button-large,
+      [class*="tawk-agent-chat-bubble"],
+      .tawk-custom-color {
+        background: #166534 !important;
+      }
+      iframe[title="chat widget"] + div,
+      .tawk-min-container iframe {
+        --tawk-header-color: #166534 !important;
+      }
+    </style>
 </body>
 
 </html>

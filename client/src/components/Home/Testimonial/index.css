@@ -168,3 +168,60 @@
 		font-size: 1.75rem;
 	}
 }
+
+/* ── Testimonial Empty State Card ── */
+.testimonial-empty-state {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem 1rem;
+}
+
+.testimonial-empty-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 80px;
+	background: #f9fafb;
+	border-radius: 12px;
+	border: 1px solid #e5e7eb;
+	max-width: 520px;
+	width: 100%;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.testimonial-empty-illustration {
+	margin-bottom: 2rem;
+}
+
+.testimonial-empty-illustration svg {
+	filter: drop-shadow(0 4px 12px rgba(22, 101, 52, 0.1));
+}
+
+.testimonial-empty-title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #1a1a2e;
+	margin: 0 0 0.75rem;
+}
+
+.testimonial-empty-message {
+	font-size: 1rem;
+	color: #5a6c7d;
+	line-height: 1.7;
+	margin: 0 0 2rem;
+}
+
+.testimonial-empty-cta {
+	padding: 0 32px !important;
+	height: 48px !important;
+	font-weight: 600 !important;
+	font-size: 15px !important;
+}
+
+@media (max-width: 575.98px) {
+	.testimonial-empty-card {
+		padding: 48px 24px;
+	}
+}

@@ -6,10 +6,12 @@ import { Secret } from "jsonwebtoken";
 
 export const auth = (...rules: string[]) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.headers.authorization;
-        if (!token) {
-            throw new ApiError(404, "Token is not Found !!")
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            throw new ApiError(401, "Session expired. Please login again.")
         }
+        // Support both "Bearer <token>" and raw token formats
+        const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
         let verifiedUser;
         try {
             verifiedUser = await JwtHelper.verifyToken(token, config.jwt.secret as Secret);
@@ -19,10 +21,13 @@ export const auth = (...rules: string[]) => async (req: Request, res: Response, 
         req.user = verifiedUser;
 
         if (rules.length && !rules.includes(verifiedUser.role)) {
-            throw new ApiError(403, "You are not Authorised !!")
+            throw new ApiError(403, "Session expired. Please login again.")
         }
         next();
     } catch (error) {
+        if (error instanceof ApiError && error.message === "User is not Found !!") {
+             error.message = "Session expired. Please login again.";
+        }
         next(error)
     }
 }

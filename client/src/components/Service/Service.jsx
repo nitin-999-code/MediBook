@@ -2,9 +2,24 @@ import React from 'react';
 import SubHeader from '../Shared/SubHeader';
 import Footer from '../Shared/Footer/Footer';
 import Header from '../Shared/Header/Header';
-import img from '../../images/features/baby.png';
 import { Link } from 'react-router-dom';
 import './Service.css';
+
+import pediatricsImg from '../../images/services/pediatrics.jpg';
+import cardiologyImg from '../../images/services/cardiology.jpg';
+import neurologyImg from '../../images/services/neurology.jpg';
+import orthopedicsImg from '../../images/services/orthopedics.jpg';
+import dentistryImg from '../../images/services/dentistry.jpg';
+import generalMedicineImg from '../../images/services/general-medicine.jpg';
+
+const serviceImageMap = {
+    'Pediatrics': pediatricsImg,
+    'Cardiology': cardiologyImg,
+    'Neurology': neurologyImg,
+    'Orthopedics': orthopedicsImg,
+    'Dentistry': dentistryImg,
+    'General Medicine': generalMedicineImg,
+};
 
 const Service = () => {
     const servicesList = [
@@ -27,7 +42,11 @@ const Service = () => {
                         <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
                             <div className="service-card-modern">
                                 <div className="service-card-img">
-                                    <img src={img} alt={item.name} className="img-fluid" />
+                                    <img
+                                        src={serviceImageMap[item.name] || generalMedicineImg}
+                                        alt={item.name}
+                                        className="img-fluid"
+                                    />
                                 </div>
                                 <div className="service-card-body">
                                     <h4>{item.name}</h4>

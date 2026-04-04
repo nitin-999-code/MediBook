@@ -124,6 +124,14 @@ export const mockDoctors = [
   },
 ];
 
+export const mockTimeSlots = [
+  "09:00 AM",
+  "10:00 AM",
+  "11:00 AM",
+  "02:00 PM",
+  "04:00 PM"
+];
+
 export const mockAppointments = [
   {
     id: 'demo-apt-1',

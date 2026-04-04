@@ -11,10 +11,13 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
+import { safeArray } from '../../../utils/safeData';
+import { mockDoctors } from '../../../config/demoMode';
 
 const BookDoctor = () => {
 	const { data, isError, isLoading } = useGetDoctorsQuery({ limit: 10 });
-	const doctors = data?.doctors;
+	const apiDoctors = data?.doctors;
+	const doctors = safeArray(apiDoctors, mockDoctors.slice(0, 4));
 	const [addFavourite, { isSuccess, isError: fIsError, error }] = useAddFavouriteMutation();
 	const [selectedId, setSelectedId] = useState(null);
 

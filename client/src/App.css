@@ -312,3 +312,11 @@ a:hover { color: var(--primary-light); }
 /* Remove all link underlines globally */
 a { text-decoration: none !important; }
 a:hover { text-decoration: none !important; }
+
+/* Progress bar */
+.ant-progress-bg {
+  background-color: var(--primary) !important;
+}
+.ant-progress-inner {
+  background-color: var(--primary-ghost) !important;
+}

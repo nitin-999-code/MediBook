@@ -67,41 +67,24 @@ const AppointmentPage = () => {
   }, [selectValue, isCheck]);
 
   const handleConfirmSchedule = () => {
-    const obj = {};
-    const isPatientSession = role === 'patient' && data?.id;
-
-    obj.patientInfo = {
-      firstName: selectValue.firstName,
-      lastName: selectValue.lastName,
-      email: selectValue.email,
-      phone: selectValue.phone,
-      patientId: isPatientSession ? data.id : undefined,
-      scheduleDate: selectedDate,
-      scheduleTime: selectTime,
-      reasonForVisit: [
+    const obj = {
+      doctorId: selectedDoctor?.id || "",
+      appointmentTime: new Date(`${moment(selectedDate).format('YYYY-MM-DD')} ${selectTime}`).toISOString(),
+      purpose: [
         selectValue.problemType && visitReasonOptions.find((o) => o.value === selectValue.problemType)?.label,
         selectValue.reasonForVisit,
-      ]
-        .filter(Boolean)
-        .join(' — ') || selectValue.reasonForVisit,
-      description: selectValue.description || undefined,
-      address: selectValue.address || undefined,
-      ...(selectedDoctor?.id && { doctorId: selectedDoctor.id }),
+      ].filter(Boolean).join(' — ') || selectValue.reasonForVisit,
+      status: 'accept',
+      totalAmount: parseInt(selectedDoctor?.price) || 60,
     };
-    obj.payment = {
-      paymentType: selectValue.paymentType,
-      paymentMethod: selectValue.paymentMethod,
-      cardNumber: selectValue.cardNumber,
-      cardExpiredYear: selectValue.cardExpiredYear,
-      cvv: selectValue.cvv,
-      expiredMonth: selectValue.expiredMonth,
-      nameOnCard: selectValue.nameOnCard,
-    };
+    
+    console.log('[MediBook] Appointment payload:', JSON.stringify(obj, null, 2));
     createAppointment(obj);
   };
 
   useEffect(() => {
     if (isSuccess && appointmentData?.id) {
+      console.log('[MediBook] Appointment success response:', appointmentData);
       message.success('Appointment scheduled successfully');
       setSelectValue(initialValue);
       setSelectedDoctor(null);
@@ -122,6 +105,7 @@ const AppointmentPage = () => {
       return () => clearTimeout(t);
     }
     if (isError) {
+      console.error('[MediBook] Appointment error:', error);
       message.error(error?.data?.message || 'Unable to schedule appointment. Please try again.');
     }
   }, [isSuccess, isError, appointmentData, error, dispatch, navigate]);
