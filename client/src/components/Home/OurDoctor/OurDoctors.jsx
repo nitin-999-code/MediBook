@@ -6,8 +6,8 @@ import { useGetDoctorsQuery } from '../../../redux/api/doctorApi';
 import { Link } from 'react-router-dom';
 
 const OurDoctors = () => {
-    const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 4 });
-    const doctors = data?.doctors;
+    const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 10 });
+    const doctors = data?.doctors?.slice(0, 4);
 
     let content = null;
     if (isLoading) {

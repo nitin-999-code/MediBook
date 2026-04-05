@@ -23,6 +23,30 @@ app.get('/', (req: Request, res: Response) => {
     res.send(config.clientUrl)
 })
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+    const start = Date.now();
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        let suffix = '';
+        if (duration > 2000) suffix = ' - CRITICAL';
+        else if (duration > 1000) suffix = ' - SLOW';
+        console.log(`Endpoint: ${req.method} ${req.originalUrl} | Start time: ${new Date(start).toISOString()} | End time: ${new Date().toISOString()} | Total duration (${duration}ms)${suffix}`);
+    });
+    next();
+});
+
+// Cache Configuration Minimal Fix
+app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'GET' && req.originalUrl.startsWith('/api/v1/')) {
+        res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minute cache
+    }
+    next();
+});
+
+app.get('/health', (req: Request, res: Response) => {
+    res.status(200).json({ status: 'ok' });
+});
+
 app.use('/api/v1', router);
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
