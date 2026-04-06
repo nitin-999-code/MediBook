@@ -9,13 +9,7 @@ import rateLimit from 'express-rate-limit';
 
 const app: Application = express();
 
-app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://medi-book-iota.vercel.app"
-    ],
-    credentials: true
-}));
+app.use(cors());
 app.use(CookieParser());
 
 app.use(express.json());
@@ -71,12 +65,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/v1', router);
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error("Server error:", err);
+    console.error('[Server Error]', err.message || err);
     if (err instanceof ApiError) {
         res.status(err.statusCode).json({ success: false, message: err.message })
     } else {
-        res.status(500).json({
-            message: "Internal server error"
+        const statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
+        res.status(statusCode).json({
+            success: false,
+            message: err.message || 'Internal Server Error',
         });
     }
 })
