@@ -12,8 +12,7 @@ import './Blog.css';
 
 const Blog = () => {
 	const { data, isError, isLoading } = useGetAllBlogsQuery({ limit: 3 });
-	const apiBlogData = data?.blogs;
-    const blogData = Array.isArray(apiBlogData) && apiBlogData.length > 0 ? apiBlogData : mockBlogs.slice(0, 3);
+    const apiBlogData = Array.isArray(data?.blogs) ? data.blogs : [];
 
 	const renderContent = () => {
 		if (isLoading) return (
@@ -22,10 +21,18 @@ const Blog = () => {
 			</div>
 		);
 		if (isError) {
-			console.error("API failed, using fallback data");
+			console.error("API failed:", isError);
+            return <div className="text-center text-danger">Error loading data.</div>;
 		}
+        if (apiBlogData.length === 0) {
+            return (
+                <div className="col-12 py-5">
+                    <Empty description="No data available" />
+                </div>
+            );
+        }
 		
-		return blogData.map((item) => (
+		return apiBlogData.map((item) => (
 			<div className="col-md-4 col-sm-12 mb-4" key={item?.id}>
 				<article className="blog-card">
 					<Link to={`/blog/${item?.id}`} className="blog-card__img-link">

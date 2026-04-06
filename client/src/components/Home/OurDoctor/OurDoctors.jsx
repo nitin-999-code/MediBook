@@ -10,8 +10,7 @@ import { SkeletonCard } from '../../UI';
 
 const OurDoctors = () => {
     const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 10 });
-    const apiDoctors = data?.doctors?.slice(0, 4);
-    const doctors = Array.isArray(apiDoctors) && apiDoctors.length > 0 ? apiDoctors : mockDoctors.slice(0, 4);
+    const apiDoctors = Array.isArray(data?.doctors) ? data.doctors.slice(0, 4) : [];
 
     const renderContent = () => {
         if (isLoading) return (
@@ -20,10 +19,18 @@ const OurDoctors = () => {
             </div>
         );
         if (isError) {
-            console.error("API failed, using fallback data");
+            console.error("API failed:", isError);
+            return <div className="col-12 text-center text-danger">Error loading data.</div>;
+        }
+        if (apiDoctors.length === 0) {
+            return (
+                <div className="col-12 py-5">
+                    <Empty description="No data available" />
+                </div>
+            );
         }
 
-        return doctors.map((item) => {
+        return apiDoctors.map((item) => {
             const fullName = `${item?.firstName || ''} ${item?.lastName || ''}`.trim() || 'Doctor';
             return (
                 <div className="col-sm-6 col-lg-3 mb-4" key={item.id}>
