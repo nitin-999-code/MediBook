@@ -7,7 +7,7 @@ import { useGetDoctorsQuery } from '../../../redux/api/doctorApi';
 import { Pagination } from 'antd';
 import Header from '../../Shared/Header/Header';
 import { SkeletonCard, EmptyState } from '../../UI';
-import { mockDoctors } from '../../../data/mockDoctors';
+import { mockDoctors } from '../../../config/demoMode';
 import { safeArray } from '../../../utils/safeData';
 import './SearchDoctor.css';
 
@@ -62,11 +62,8 @@ const SearchDoctor = () => {
 
     const { data, isLoading, isError } = useGetDoctorsQuery(query);
     const apiDoctorsData = data?.doctors ?? [];
-    const doctorsData = Array.isArray(apiDoctorsData) && apiDoctorsData.length > 0 ? apiDoctorsData : mockDoctors;
+    const doctorsData = safeArray(apiDoctorsData, mockDoctors);
     
-    if (isError) {
-        console.error("API failed, using fallback data");
-    }
     const meta = data?.meta;
     const total = meta?.total || (doctorsData === mockDoctors ? mockDoctors.length : 0);
 

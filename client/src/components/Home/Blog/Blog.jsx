@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 import { truncate } from '../../../utils/truncate';
 import { FaUser, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import { safeArray } from '../../../utils/safeData';
-import { mockBlogs } from '../../../data/mockBlogs';
+import { mockBlogPosts } from '../../../config/demoMode';
 import { SkeletonCard } from '../../UI';
 import './Blog.css';
 
 const Blog = () => {
 	const { data, isError, isLoading } = useGetAllBlogsQuery({ limit: 3 });
 	const apiBlogData = data?.blogs;
-    const blogData = Array.isArray(apiBlogData) && apiBlogData.length > 0 ? apiBlogData : mockBlogs.slice(0, 3);
+    const blogData = safeArray(apiBlogData, mockBlogPosts.slice(0, 3));
 
 	const renderContent = () => {
 		if (isLoading) return (
@@ -21,9 +21,12 @@ const Blog = () => {
 				<SkeletonCard count={3} className="col-md-4 col-sm-12 mb-4" />
 			</div>
 		);
-		if (isError) {
-			console.error("API failed, using fallback data");
-		}
+		if (isError) return <div className="text-center text-danger">Error loading blog posts.</div>;
+		if (!blogData?.length) return (
+			<div className="col-12 py-5">
+				<Empty description="No available data right now" />
+			</div>
+		);
 		
 		return blogData.map((item) => (
 			<div className="col-md-4 col-sm-12 mb-4" key={item?.id}>

@@ -5,13 +5,13 @@ import { Empty } from 'antd';
 import { useGetDoctorsQuery } from '../../../redux/api/doctorApi';
 import { Link } from 'react-router-dom';
 import { safeArray } from '../../../utils/safeData';
-import { mockDoctors } from '../../../data/mockDoctors';
+import { mockDoctors } from '../../../config/demoMode';
 import { SkeletonCard } from '../../UI';
 
 const OurDoctors = () => {
     const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 10 });
     const apiDoctors = data?.doctors?.slice(0, 4);
-    const doctors = Array.isArray(apiDoctors) && apiDoctors.length > 0 ? apiDoctors : mockDoctors.slice(0, 4);
+    const doctors = safeArray(apiDoctors, mockDoctors.slice(0, 4));
 
     const renderContent = () => {
         if (isLoading) return (
@@ -19,9 +19,12 @@ const OurDoctors = () => {
                 <SkeletonCard count={4} className="col-sm-6 col-lg-3 mb-4" />
             </div>
         );
-        if (isError) {
-            console.error("API failed, using fallback data");
-        }
+        if (isError) return <div className="col-12 text-center text-danger">Error loading doctors.</div>;
+        if (!doctors?.length) return (
+            <div className="col-12 py-5">
+                <Empty description="No available data right now" />
+            </div>
+        );
 
         return doctors.map((item) => {
             const fullName = `${item?.firstName || ''} ${item?.lastName || ''}`.trim() || 'Doctor';
