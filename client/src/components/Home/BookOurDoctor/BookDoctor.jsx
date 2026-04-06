@@ -11,13 +11,12 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
-import { safeArray } from '../../../utils/safeData';
 import { mockDoctors } from '../../../config/demoMode';
 
 const BookDoctor = () => {
-	const { data, isError, isLoading } = useGetDoctorsQuery({ limit: 10 });
+	const { data, isLoading } = useGetDoctorsQuery({ limit: 10 });
 	const apiDoctors = data?.doctors;
-	const doctors = safeArray(apiDoctors, mockDoctors.slice(0, 4));
+	const doctors = Array.isArray(apiDoctors) && apiDoctors.length > 0 ? apiDoctors : mockDoctors;
 	const [addFavourite, { isSuccess, isError: fIsError, error }] = useAddFavouriteMutation();
 	const [selectedId, setSelectedId] = useState(null);
 
@@ -54,19 +53,7 @@ const BookDoctor = () => {
 				))}
 			</>
 		);
-	} else if (!isLoading && isError) {
-		content = (
-			<div className="book-doctor-error">
-				<p>Unable to load doctors. Please try again later.</p>
-			</div>
-		);
-	} else if (!isLoading && doctors?.length === 0) {
-		content = (
-			<div className="book-doctor-empty">
-				<p>No doctors available at the moment.</p>
-			</div>
-		);
-	} else if (doctors?.length > 0) {
+	} else {
 		content = doctors.map((item, index) => {
 			const fullName = `${item?.firstName || ''} ${item?.lastName || ''}`.trim() || 'Doctor';
 			const isFeatured = index < 2;
