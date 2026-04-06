@@ -4,7 +4,7 @@ import { getFromLocalStorage } from "../../utils/local-storage";
 export const instance = axios.create();
 
 instance.defaults.headers.post['Accept'] = 'application/json';
-instance.defaults.timeout = 60000;
+instance.defaults.timeout = 5000;
 
 instance.interceptors.request.use(function (config) {
     const accessToken = getFromLocalStorage('accessToken');

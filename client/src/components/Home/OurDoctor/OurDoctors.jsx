@@ -9,19 +9,24 @@ import { mockDoctors } from '../../../config/demoMode';
 import { SkeletonCard } from '../../UI';
 
 const OurDoctors = () => {
-    const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 4 });
-    const apiDoctors = data?.doctors;
+    const { data, isLoading, isError } = useGetDoctorsQuery({ limit: 10 });
+    const apiDoctors = data?.doctors?.slice(0, 4);
     const doctors = safeArray(apiDoctors, mockDoctors.slice(0, 4));
 
-    let content = null;
-    if (isLoading) {
-        content = (
+    const renderContent = () => {
+        if (isLoading) return (
             <div className="row justify-content-center w-100">
                 <SkeletonCard count={4} className="col-sm-6 col-lg-3 mb-4" />
             </div>
         );
-    } else if (doctors?.length > 0) {
-        content = doctors.map((item) => {
+        if (isError) return <div className="col-12 text-center text-danger">Error loading doctors.</div>;
+        if (!doctors?.length) return (
+            <div className="col-12 py-5">
+                <Empty description="No available data right now" />
+            </div>
+        );
+
+        return doctors.map((item) => {
             const fullName = `${item?.firstName || ''} ${item?.lastName || ''}`.trim() || 'Doctor';
             return (
                 <div className="col-sm-6 col-lg-3 mb-4" key={item.id}>
@@ -53,13 +58,7 @@ const OurDoctors = () => {
                 </div>
             );
         });
-    } else {
-        content = (
-            <div className="col-12 py-5">
-                <Empty description="No available data right now" />
-            </div>
-        );
-    }
+    };
 
     return (
         <section id="doctors" className="our-doctors-section py-5">
@@ -69,7 +68,7 @@ const OurDoctors = () => {
                     <p className="text-muted">Meet our experienced and caring specialists.</p>
                 </div>
                 <div className="row justify-content-center">
-                    {content}
+                    {renderContent()}
                 </div>
             </div>
         </section>

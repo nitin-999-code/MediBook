@@ -36,6 +36,7 @@ model Patient {
   booking     Booking[]
   Reviews     Reviews[]
 
+  @@index([createdAt])
   @@map("Patient")
 }
 
@@ -75,6 +76,7 @@ model Doctor {
   Reviews   Reviews[]
   profileComplete Boolean? @default(false)
 
+  @@index([createdAt])
   @@map("Doctor")
 }
 
@@ -94,6 +96,9 @@ model Booking {
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
 
+  @@index([doctorId])
+  @@index([status])
+  @@index([createdAt])
   @@map("Booking")
 }
 
@@ -111,6 +116,8 @@ model TimeSlot {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+  @@index([doctorId])
+  @@index([createdAt])
   @@map("TimeSlot")
 }
 
@@ -131,6 +138,8 @@ model Reviews {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([doctorId])
+  @@index([createdAt])
   @@map("Reviews")
 }
 

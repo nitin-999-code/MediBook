@@ -9,7 +9,8 @@ export const axiosBaseQuery =
                     method,
                     data,
                     params,
-                    headers: headers
+                    headers: headers,
+                    timeout: 5000
                 })
                 return result
             } catch (axiosError) {
