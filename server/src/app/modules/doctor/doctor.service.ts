@@ -30,7 +30,10 @@ const create = async (payload: any): Promise<any> => {
 
         return data;
     } catch (error:any) {
-        throw new ApiError(httpStatus.BAD_REQUEST, error.message)
+        if (error.code === 'P2002') {
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Email already exists');
+        }
+        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Registration failed. Please try again later.');
     }
 }
 
