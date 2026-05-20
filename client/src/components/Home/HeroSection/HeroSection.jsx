@@ -1,45 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.css';
 import { Link } from 'react-router-dom';
+import { FiArrowRight, FiCheckCircle, FiShield, FiClock } from 'react-icons/fi';
 
 const HeroSection = () => {
-    return (
-        <section id="hero" className="d-flex align-items-center">
-            <div className="container">
-                <div className="row align-items-center">
-                    <div className="col-lg-6 hero-text-section">
-                        <small className="hero-eyebrow">Trusted Healthcare Platform</small>
-                        <h1 className="hero-heading">Find & Book The Right Doctor, Instantly.</h1>
-                        <p className="hero-subtext">Connect with verified specialists, book appointments in minutes, and manage your health journey all in one place.</p>
-                        
-                        <div className="d-flex justify-content-start gap-3 mt-4">
-                            <Link to={'/doctors'} className="btn-get-started">Book Appointment</Link>
-                            <Link to={'/about'} className="btn-get-started-outlined">How it works</Link>
-                        </div>
+  const [visible, setVisible] = useState(false);
 
-                        <div className="hero-stats mt-5 d-flex gap-4">
-                            <div className="stat-badge">
-                                <span className="stat-icon">👥</span>
-                                <strong>1,200+</strong> Patients
-                            </div>
-                            <div className="stat-badge">
-                                <span className="stat-icon">👨‍⚕️</span>
-                                <strong>30+</strong> Doctors
-                            </div>
-                            <div className="stat-badge">
-                                <span className="stat-icon">⭐</span>
-                                <strong>96%</strong> Satisfaction
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-6 hero-img-section d-none d-lg-block">
-                        <div className="hero-blob-bg">
-                            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80" alt="Doctor" className="img-fluid hero-img" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 80);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleScrollToHowItWorks = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('how-it-works');
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 88;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section id="hero-premium" className="hero-premium">
+      {/* Background Image */}
+      <div className="hero-bg-image-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=1800&q=85"
+          alt="Doctor consulting patient in modern clinic"
+          className="hero-bg-image"
+          onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1800&q=85';
+          }}
+        />
+        <div className="hero-dark-overlay" />
+      </div>
+
+      {/* Hero Content — centered, clean, no extras */}
+      <div className="hero-content">
+
+        {/* Heading — exactly 2 lines, no wrapping */}
+        <h1 className={`hero-title hero-anim hero-anim--0 ${visible ? 'hero-anim-active' : ''}`}>
+          <span className="hero-title-main">Book Trusted Doctors</span>
+          <span className="hero-title-sub">Without Waiting</span>
+        </h1>
+
+        {/* Subtext */}
+        <p className={`hero-sub hero-anim hero-anim--1 ${visible ? 'hero-anim-active' : ''}`}>
+          Find verified specialists, compare availability, and confirm appointments
+          in minutes — all from one secure healthcare platform.
+        </p>
+
+        {/* Trust Chips */}
+        <div className={`hero-chips hero-anim hero-anim--2 ${visible ? 'hero-anim-active' : ''}`}>
+          <span className="hero-chip"><FiCheckCircle /> Verified Doctors</span>
+          <span className="hero-chip"><FiClock /> Instant Booking</span>
+          <span className="hero-chip"><FiShield /> Secure Records</span>
+        </div>
+
+        {/* CTA Buttons */}
+        <div className={`hero-btns hero-anim hero-anim--3 ${visible ? 'hero-anim-active' : ''}`}>
+          <Link to="/doctors" className="hero-btn-primary" id="hero-book-btn">
+            Book an Appointment <FiArrowRight />
+          </Link>
+          <a
+            href="#how-it-works"
+            onClick={handleScrollToHowItWorks}
+            className="hero-btn-ghost"
+            id="hero-howitworks-btn"
+          >
+            How It Works
+          </a>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
 export default HeroSection;

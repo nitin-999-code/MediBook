@@ -20,7 +20,7 @@
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    Tawk_API.customStyle = { customBgColor: '#166534',
+    Tawk_API.customStyle = { customBgColor: '#0F7A3D',
       visibility: {
         desktop: { position: 'br', xOffset: 20, yOffset: 20 },
         mobile: { position: 'br', xOffset: 10, yOffset: 60 }
@@ -28,7 +28,7 @@
       zIndex: 999
     };
     Tawk_API.onLoad = function(){
-      Tawk_API.setAttributes({ 'theme-color': '#166534' }, function(error){});
+      Tawk_API.setAttributes({ 'theme-color': '#0F7A3D' }, function(error){});
     };
     (function(){
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -41,12 +41,16 @@
     </script>
     <!--End of Tawk.to Script-->
     <style>
-      /* Force Tawk.to chat widget green theme via CSS filter */
-      iframe[src*="tawk.to"],
-      iframe[title="chat widget"],
-      div[id^="tawk"] iframe,
-      .tawk-min-container iframe {
-        filter: hue-rotate(-75deg) saturate(1.1) !important;
+      /* Force Tawk.to chat widget green theme matching #307043 and white background */
+      [id*="tawk" i],
+      [class*="tawk" i],
+      iframe[src*="tawk" i],
+      iframe[title*="chat" i],
+      iframe[alt*="chat" i],
+      iframe[id*="tawk" i],
+      iframe {
+        filter: hue-rotate(-75deg) saturate(0.6) contrast(1.5) brightness(1.1) !important;
+        transform: translateZ(0) !important; /* Force GPU composited layer rendering */
       }
     </style>
 </body>

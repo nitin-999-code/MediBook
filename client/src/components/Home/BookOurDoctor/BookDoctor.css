@@ -1,6 +1,6 @@
 .section-doctor {
-	background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
-	padding: 5rem 0;
+	background: linear-gradient(180deg, var(--bg-page) 0%, var(--white) 100%);
+	padding: 100px 0;
 }
 
 .section-doctor-intro {
@@ -9,79 +9,86 @@
 
 .section-doctor-label {
 	display: inline-block;
-	font-size: 0.8rem;
-	font-weight: 600;
+	font-size: 11px;
+	font-weight: 700;
 	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: #166534;
-	margin-bottom: 0.5rem;
+	letter-spacing: 2px;
+	color: var(--primary);
+	background: var(--primary-bg);
+	padding: 6px 14px;
+	border-radius: var(--radius-full);
+	margin-bottom: 16px;
 }
 
 .section-doctor-intro h2 {
-	font-size: 1.75rem;
-	font-weight: 700;
-	color: #1a1a2e;
-	margin-bottom: 0.75rem;
+	font-size: 36px;
+	font-weight: 800;
+	color: var(--text-main);
+	margin-bottom: 16px;
+	letter-spacing: -0.8px;
 }
 
 .section-doctor-lead {
-	font-size: 1rem;
-	color: #5a6c7d;
-	line-height: 1.55;
-	margin-bottom: 0.75rem;
+	font-size: 15.5px;
+	color: var(--text-sec);
+	line-height: 1.6;
+	margin-bottom: 12px;
 }
 
 .section-doctor-text {
-	font-size: 0.9rem;
-	color: #6c757d;
+	font-size: 14px;
+	color: var(--text-muted);
 	line-height: 1.6;
-	margin-bottom: 1.5rem;
+	margin-bottom: 24px;
 }
 
 .section-doctor-cta {
 	display: inline-block;
-	font-weight: 600;
-	color: #166534;
+	font-weight: 700;
+	color: var(--primary);
 	text-decoration: none;
-	transition: color 0.2s;
+	transition: color var(--transition-fast);
+	border-bottom: 2px solid var(--primary-light);
+	padding-bottom: 4px;
 }
 
 .section-doctor-cta:hover {
-	color: #14532d;
+	color: var(--primary-dark);
+	border-color: var(--primary-dark);
 }
 
 /* Card */
 .book-doctor-card {
-	background: #fff;
-	border-radius: 16px;
+	background: var(--white);
+	border-radius: var(--radius-lg);
 	overflow: hidden;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+	box-shadow: var(--shadow-card);
 	border: 2px solid transparent;
 	position: relative;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	transition: box-shadow 0.3s, transform 0.3s, border-color 0.25s;
+	transition: all var(--transition-normal);
 	cursor: pointer;
 	user-select: none;
 }
 
 .book-doctor-card:hover {
-	box-shadow: 0 12px 40px rgba(25, 119, 204, 0.15);
-	transform: translateY(-4px);
+	box-shadow: var(--shadow-card-hover);
+	transform: translateY(-6px);
 }
 
 .book-doctor-card--featured {
-	border-color: rgba(25, 119, 204, 0.2);
-	box-shadow: 0 4px 24px rgba(25, 119, 204, 0.12);
+	border-color: var(--primary-bg);
+	box-shadow: var(--shadow-lg);
 }
 
 .book-doctor-card--selected {
-	border-color: #166534;
+	border-color: var(--primary);
 	box-shadow:
-		0 0 0 4px rgba(25, 119, 204, 0.14),
-		0 12px 40px rgba(25, 119, 204, 0.22);
-	transform: translateY(-4px);
+		0 0 0 4px var(--primary-bg),
+		var(--shadow-card-hover);
+	transform: translateY(-6px);
 }
 
 .book-doctor-card__selected-banner {
@@ -89,19 +96,19 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: linear-gradient(90deg, #14532d 0%, #166534 60%, #3291e6 100%);
-	color: #fff;
+	background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%);
+	color: var(--white);
 	font-size: 0.72rem;
 	font-weight: 700;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
-	padding: 6px 14px;
+	padding: 8px 14px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 6px;
 	z-index: 4;
-	border-radius: 0 0 14px 14px;
+	border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
 .book-doctor-card__badge {
@@ -109,15 +116,15 @@
 	top: 12px;
 	left: 12px;
 	z-index: 2;
-	background: linear-gradient(135deg, #166534 0%, #14532d 100%);
-	color: #fff;
-	font-size: 0.7rem;
+	background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+	color: var(--white);
+	font-size: 10px;
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	padding: 4px 10px;
-	border-radius: 20px;
-	box-shadow: 0 2px 8px rgba(25, 119, 204, 0.4);
+	border-radius: var(--radius-full);
+	box-shadow: var(--shadow-sm);
 }
 
 .book-doctor-card__photo-link {
@@ -271,32 +278,32 @@
 	padding: 10px 14px;
 	font-size: 0.9rem;
 	font-weight: 600;
-	border-radius: 10px;
+	border-radius: var(--radius-md);
 	text-decoration: none;
-	transition: all 0.2s;
+	transition: all var(--transition-fast);
 }
 
 .book-doctor-card__btn--outline {
-	background: #fff;
-	color: #166534;
-	border: 2px solid #166534;
+	background: var(--white);
+	color: var(--primary);
+	border: 2px solid var(--primary);
 }
 
 .book-doctor-card__btn--outline:hover {
-	background: #166534;
-	color: #fff;
+	background: var(--primary);
+	color: var(--white);
 }
 
 .book-doctor-card__btn--primary {
-	background: linear-gradient(135deg, #166534 0%, #14532d 100%);
-	color: #fff;
+	background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+	color: var(--white);
 	border: 2px solid transparent;
 }
 
 .book-doctor-card__btn--primary:hover {
-	background: #14532d;
-	color: #fff;
-	box-shadow: 0 4px 14px rgba(25, 119, 204, 0.4);
+	background: var(--primary-dark);
+	color: var(--white);
+	box-shadow: var(--shadow-btn);
 }
 
 /* Skeleton */

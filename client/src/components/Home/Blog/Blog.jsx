@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Empty, message } from 'antd';
+import { Empty } from 'antd';
 import { useGetAllBlogsQuery } from '../../../redux/api/blogApi';
 import { Link } from 'react-router-dom';
 import { truncate } from '../../../utils/truncate';
@@ -8,6 +8,7 @@ import { FaUser, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import { safeArray } from '../../../utils/safeData';
 import { mockBlogPosts } from '../../../config/demoMode';
 import { SkeletonCard } from '../../UI';
+import useScrollReveal from '../../../hooks/useScrollReveal';
 import './Blog.css';
 
 const Blog = () => {
@@ -15,6 +16,8 @@ const Blog = () => {
 	const apiBlogData = data?.blogs;
     const blogData = safeArray(apiBlogData, mockBlogPosts.slice(0, 3));
     const [showLoading, setShowLoading] = useState(true);
+    const [headerRef, headerVisible] = useScrollReveal();
+    const [gridRef, gridVisible] = useScrollReveal();
 
     useEffect(() => {
         const timer = setTimeout(() => setShowLoading(false), 1500);
@@ -30,7 +33,7 @@ const Blog = () => {
 		);
 	} else if (blogData?.length > 0) {
 		content = blogData.map((item) => (
-			<div className="col-md-4 col-sm-12 mb-4" key={item?.id}>
+			<div className="col-md-4 col-sm-12 mb-4 stagger-item" key={item?.id}>
 				<article className="blog-card">
 					<Link to={`/blog/${item?.id}`} className="blog-card__img-link">
 						<div className="blog-card__img">
@@ -68,14 +71,19 @@ const Blog = () => {
 	return (
 		<section className="blog-section">
 			<div className="container">
-				<div className="blog-section__header text-center">
-					<span className="blog-section__label">From our blog</span>
-					<h2>Our blog</h2>
-					<p className="blog-section__lead">
-						Health tips, news, and updates from our team.
+				<div
+                    ref={headerRef}
+                    className={`blog-header reveal-up ${headerVisible ? 'reveal-active' : ''}`}
+                >
+					<h2 className="blog-title">From the MediBook blog</h2>
+					<p className="blog-sub">
+						Health tips, doctor Q&As, and updates from our team.
 					</p>
 				</div>
-				<div className="row justify-content-center">
+				<div
+                    ref={gridRef}
+                    className={`row justify-content-center reveal-stagger-parent ${gridVisible ? 'reveal-active' : ''}`}
+                >
 					{content}
 				</div>
 				<div className="text-center mt-4 mt-md-5">

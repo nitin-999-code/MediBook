@@ -1,51 +1,92 @@
+/* ═══════════════════════════════════════════════════════════════
+   Stats Section — Trust Strip Below Hero
+   ═══════════════════════════════════════════════════════════════ */
+
 .stats-section {
-    padding: 0 0 60px 0;
-    background: var(--white);
+  background: var(--bg-page);
+  padding: 48px 0 0;
+  position: relative;
+  z-index: 10;
 }
 
 .stats-container {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 30px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: var(--shadow);
-    flex-wrap: wrap;
-    gap: 20px;
+  background: var(--white);
+  border: 1.5px solid rgba(15, 122, 61, 0.10);
+  border-radius: 24px;
+  padding: 36px 40px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow:
+    0 4px 24px rgba(2, 44, 34, 0.06),
+    0 1px 6px rgba(0, 0, 0, 0.02);
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .stat-item {
-    text-align: center;
+  text-align: center;
+  flex: 1;
+  min-width: 130px;
+  transition: transform 0.25s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-3px);
 }
 
 .stat-value {
-    color: var(--primary);
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    line-height: 1;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 5px;
+  line-height: 1;
+  letter-spacing: -0.025em;
 }
 
 .stat-label {
-    color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 500;
+  color: var(--text-sec);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .stat-divider {
-    width: 1px;
-    height: 60px;
-    background: var(--border);
+  width: 1px;
+  height: 48px;
+  background: rgba(15, 122, 61, 0.09);
+  flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-    .stats-container {
-        flex-direction: column;
-    }
-    .stat-divider {
-        width: 60px;
-        height: 1px;
-    }
+/* ── Responsive ── */
+@media (max-width: 991px) {
+  .stats-section {
+    padding: 36px 0 0;
+  }
+  .stats-container {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .stats-section {
+    padding: 28px 0 0;
+  }
+  .stats-container {
+    flex-direction: column;
+    gap: 24px;
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+  .stat-divider {
+    width: 48px;
+    height: 1px;
+  }
+  .stat-value {
+    font-size: 34px;
+  }
 }

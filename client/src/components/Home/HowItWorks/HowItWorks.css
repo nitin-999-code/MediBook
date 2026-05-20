@@ -1,0 +1,124 @@
+/* How It Works */
+.how-it-works-section {
+  padding: 96px 0;
+  background: var(--bg-page);
+}
+
+.hiw-header {
+  max-width: 640px;
+  margin-bottom: 56px;
+}
+
+.hiw-title {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+}
+
+.hiw-sub {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-sec);
+  margin: 0;
+}
+
+/* Four-column grid with a faint connecting line behind the icons */
+.hiw-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+.hiw-connector {
+  position: absolute;
+  top: 32px;
+  left: calc(12.5% + 8px);
+  right: calc(12.5% + 8px);
+  height: 1px;
+  border-top: 1.5px dashed rgba(15, 122, 61, 0.18);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hiw-card {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border: 1px solid rgba(15, 122, 61, 0.07);
+  border-radius: 20px;
+  padding: 32px 24px;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.hiw-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(15, 122, 61, 0.08);
+}
+
+.hiw-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.hiw-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.28s ease, color 0.28s ease;
+}
+
+.hiw-card:hover .hiw-icon-wrap {
+  background: var(--primary);
+  color: #fff;
+}
+
+.hiw-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: rgba(15, 122, 61, 0.09);
+  line-height: 1;
+  user-select: none;
+}
+
+.hiw-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.hiw-card-desc {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-sec);
+  margin: 0;
+}
+
+@media (max-width: 991px) {
+  .hiw-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hiw-connector {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .how-it-works-section {
+    padding: 64px 0;
+  }
+  .hiw-grid {
+    grid-template-columns: 1fr;
+  }
+}

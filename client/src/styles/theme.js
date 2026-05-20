@@ -7,17 +7,17 @@
 
 const theme = {
   colors: {
-    // Primary palette — deep teal family
-    primary:       '#166534',
-    primaryLight:  '#15803d',
-    primaryDark:   '#14532d',
-    primaryBg:     '#f0fdf4',
-    primaryGhost:  'rgba(22, 101, 52, 0.06)',
+    // Primary palette — Premium Green family
+    primary:       '#0F7A3D',
+    primaryLight:  '#22C55E',
+    primaryDark:   '#064E3B',
+    primaryBg:     '#ECFDF5',
+    primaryGhost:  'rgba(15, 122, 61, 0.08)',
 
-    // Accent — warm amber for CTAs / highlights
-    accent:        '#E8913A',
-    accentLight:   '#F5B870',
-    accentBg:      '#FFF8EE',
+    // Accent — vibrant green matching brand Accent
+    accent:        '#22C55E',
+    accentLight:   '#4ADE80',
+    accentBg:      '#F0FDF4',
 
     // Neutrals
     white:         '#FFFFFF',

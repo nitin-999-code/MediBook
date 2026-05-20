@@ -12,6 +12,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import { mockDoctors } from '../../../config/demoMode';
+import useScrollReveal from '../../../hooks/useScrollReveal';
 
 const BookDoctor = () => {
 	const { data, isLoading } = useGetDoctorsQuery({ limit: 10 });
@@ -20,6 +21,9 @@ const BookDoctor = () => {
 	const [addFavourite, { isSuccess, isError: fIsError, error }] = useAddFavouriteMutation();
 	const [selectedId, setSelectedId] = useState(null);
 	const [showLoading, setShowLoading] = useState(true);
+
+	const [introRef, introVisible] = useScrollReveal();
+	const [carouselRef, carouselVisible] = useScrollReveal();
 
 	useEffect(() => {
 		const timer = setTimeout(() => setShowLoading(false), 1500);
@@ -136,10 +140,13 @@ const BookDoctor = () => {
 	}
 
 	return (
-		<section className="section-doctor">
+		<section className="section-doctor" id="doctors">
 			<div className="container">
 				<div className="row align-items-start">
-					<div className="col-12 col-lg-3 mb-4 mb-lg-0">
+					<div
+						ref={introRef}
+						className={`col-12 col-lg-3 mb-4 mb-lg-0 reveal-fade-up ${introVisible ? 'reveal-active' : ''}`}
+					>
 						<div className="section-doctor-intro">
 							<span className="section-doctor-label">Our team</span>
 							<h2>Book our doctors</h2>
@@ -153,7 +160,10 @@ const BookDoctor = () => {
 							<Link to="/doctors" className="section-doctor-cta">View all doctors</Link>
 						</div>
 					</div>
-					<div className="col-12 col-lg-9">
+					<div
+						ref={carouselRef}
+						className={`col-12 col-lg-9 reveal-fade-up ${carouselVisible ? 'reveal-active' : ''}`}
+					>
 						<div className="book-doctor-swiper-wrap">
 							<Swiper
 								spaceBetween={20}

@@ -5,7 +5,6 @@ import { useGetAllReviewsQuery } from '../../../redux/api/reviewsApi';
 import StarRatings from 'react-star-ratings';
 import { truncate } from '../../../utils/truncate';
 import { FaCheck, FaUser } from 'react-icons/fa';
-import EmptyState from '../../UI/EmptyState';
 import { Empty, Button } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
@@ -14,10 +13,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import { mockReviews } from '../../../config/demoMode';
 import { safeArray } from '../../../utils/safeData';
+import useScrollReveal from '../../../hooks/useScrollReveal';
 
 const Testimonial = () => {
     const { data, isLoading, isError } = useGetAllReviewsQuery({});
     const [showLoading, setShowLoading] = useState(true);
+    const [headerRef, headerVisible] = useScrollReveal();
+    const [swiperRef, swiperVisible] = useScrollReveal();
 
     useEffect(() => {
         const timer = setTimeout(() => setShowLoading(false), 1500);
@@ -87,7 +89,7 @@ const Testimonial = () => {
 					<div className="testimonial-card__stars">
 						<StarRatings
 							rating={5}
-							starRatedColor="#f4c150"
+							starRatedColor="#fbbf24"
 							numberOfStars={5}
 							name="rating"
 							starDimension="18px"
@@ -105,10 +107,12 @@ const Testimonial = () => {
 	return (
 		<section className="testimonial-section">
 			<div className="container">
-				<div className="testimonial-section__header text-center">
-					<span className="testimonial-section__label">Reviews</span>
-					<h2>Testimonials</h2>
-					<p className="testimonial-section__lead">What our patients say about us</p>
+				<div
+					ref={headerRef}
+					className={`testimonial-header reveal-up ${headerVisible ? 'reveal-active' : ''}`}
+				>
+					<h2 className="testimonial-title">What patients are saying</h2>
+					<p className="testimonial-lead">Real feedback from people who've used MediBook to find and book their doctors.</p>
 				</div>
 
 				{isLoading && showLoading && (
@@ -168,7 +172,10 @@ const Testimonial = () => {
 			)}
 
 				{hasData && (
-					<div className="testimonial-swiper-wrap">
+					<div
+						ref={swiperRef}
+						className={`testimonial-swiper-wrap reveal-blur ${swiperVisible ? 'reveal-active' : ''}`}
+					>
 						<Swiper
 							spaceBetween={24}
 							slidesPerView={1}
@@ -203,7 +210,7 @@ const Testimonial = () => {
 										<div className="testimonial-card__stars">
 											<StarRatings
 												rating={5}
-												starRatedColor="#f4c150"
+												starRatedColor="#fbbf24"
 												numberOfStars={5}
 												name="rating"
 												starDimension="18px"
